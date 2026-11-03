@@ -1,0 +1,48 @@
+{
+  "entries": [
+    {
+      "cue": {
+        "download": "mod/download/cue.dev/x/k8s.io/@v/v0.12.0",
+        "extract": "mod/extract/cue.dev/x/k8s.io@v0.12.0",
+        "location": {
+          "Host": "registry.cue.works",
+          "Insecure": false,
+          "Repository": "cue.dev/x/k8s.io",
+          "Tag": "v0.12.0"
+        },
+        "manifest": "{\"schemaVersion\":2,\"mediaType\":\"application/vnd.oci.image.manifest.v1+json\",\"config\":{\"mediaType\":\"application/vnd.cue.module.v1+json\",\"digest\":\"sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a\",\"size\":2},\"layers\":[{\"mediaType\":\"application/zip\",\"digest\":\"sha256:36c9dfbb9f2594dd1e60e113b3044c8b30859ac25d44966861bb699ff954cce9\",\"size\":268112},{\"mediaType\":\"application/vnd.cue.modulefile.v1\",\"digest\":\"sha256:89d0534818f262c953f4466fabfe9eabe974294795b7f53c750b78175b138d74\",\"size\":82}]}",
+        "manifestDigest": "sha256:5d66ac6c5b5a6637fbff538192cdcc4eb10362c6e5273116786ef72752bbf002",
+        "module": "cue.dev/x/k8s.io@v0",
+        "version": "v0.12.0"
+      },
+      "hash": "sha256-AaPCOMxTebruX34AnMBQu6zHPivF0wU9p934QOaCJ+I=",
+      "mirrors": [],
+      "path": "modules/cue.dev/x/k8s.io@v0.12.0",
+      "url": "oci:registry.cue.works/cue.dev/x/k8s.io@sha256:5d66ac6c5b5a6637fbff538192cdcc4eb10362c6e5273116786ef72752bbf002"
+    }
+  ],
+  "extraInputs": [],
+  "inputs": {
+    "cue.mod/module.cue": {
+      "sha256": "a96f01f0367691870b0380aec9754188b0d8c35094cf5e4462b44eeb2055eaf3"
+    }
+  },
+  "native": {
+    "deps": {
+      "cue.dev/x/k8s.io@v0": {
+        "default": true,
+        "v": "v0.12.0"
+      }
+    },
+    "language": {
+      "version": "v0.17.0"
+    },
+    "module": "purifier.example/proof@v0",
+    "source": {
+      "kind": "self"
+    }
+  },
+  "purifier": "cue",
+  "sdk": "0427d4784497539aec479d95accd23609552b1c0d3bcddfdfee346d80f007f40",
+  "version": 1
+}

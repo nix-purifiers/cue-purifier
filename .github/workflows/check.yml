@@ -1,0 +1,30 @@
+name: check
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - run: python3 tests/eval-errors.py
+      - run: nix flake check -L
+      - run: python3 tests/conformance.py
+      - run: python3 tests/capture.py
+      - name: Rebuild the project outputs
+        run: |
+          purifier_system=$(nix eval --impure --raw --expr builtins.currentSystem)
+          nix build --rebuild --no-link \
+            ".#checks.$purifier_system.environment" \
+            ".#checks.$purifier_system.project" \
+            ".#checks.$purifier_system.release"
+      - run: python3 tests/rebuild.py

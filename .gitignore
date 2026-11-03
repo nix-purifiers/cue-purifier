@@ -1,0 +1,5 @@
+result*
+cli
+__pycache__/
+*.pyc
+*.log
