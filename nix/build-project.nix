@@ -34,21 +34,32 @@ let
         "__pycache__"
       ]);
   };
-  project = runCommand "cue-project" { nativeBuildInputs = [ cue ] ++ nativeBuildInputs; } ''
-    cp -pr ${source} source
-    chmod -R u+w source
-    cd source
-    export CUE_REGISTRY=none CUE_CACHE_DIR="$TMPDIR/cache"
-    ${python3}/bin/python3 ${../cue_purifier/layout.py} "$CUE_CACHE_DIR" ${prepared.packageFile}
-    test -e ${prepared.output}/manifest.json
-    mkdir -p "$out"
-    cue vet -c
-    cue export --outfile "$out/output.json"
-    cue def --outfile "$out/definition.cue"
-    ${lib.optionalString doCheck checkCommand}
-    mkdir -p "$out/source"
-    cp -pr ${source}/. "$out/source/"
-  '';
+  project =
+    runCommand "cue-project"
+      {
+        nativeBuildInputs = [ cue ] ++ nativeBuildInputs;
+        passthru = { inherit projections; };
+      }
+      ''
+        cp -pr ${source} source
+        chmod -R u+w source
+        cd source
+        export CUE_REGISTRY=none CUE_CACHE_DIR="$TMPDIR/cache"
+        ${python3}/bin/python3 ${../cue_purifier/layout.py} "$CUE_CACHE_DIR" ${prepared.packageFile}
+        test -e ${prepared.output}/manifest.json
+        mkdir -p "$out"
+        cue vet -c
+        cue export --outfile "$out/output.json"
+        cue def --outfile "$out/definition.cue"
+        ${lib.optionalString doCheck checkCommand}
+        mkdir -p "$out/source"
+        cp -pr ${source}/. "$out/source/"
+      '';
+  projections = purifier.dataProjections {
+    producer = project;
+    files.default = "output.json";
+    inherit runCommand python3;
+  };
   release =
     runCommand "cue-native-release"
       {
@@ -82,6 +93,6 @@ in
     environment = prepared.output;
   };
   tests = project;
-  inherit release;
+  inherit release projections;
   fetches = lock.entries;
 }

@@ -74,6 +74,16 @@ It exposes evaluation-known `packages`, `tests`, `release` and `fetches`. The
 project output includes native JSON and consolidated CUE definitions. Set
 `version` when bundling a module outside major version zero.
 
+## Evaluated data projection
+
+The builder result and `packages.project` expose `projections.json` for
+`output.json`, after native CUE evaluation and validation. Consumers can use
+`projections.json.files.default` as an immutable JSON file, for example with
+ordinary Helm's `--values` flag. The separate `catalog` records producer
+identity and document digest. It exports evaluated data, not CUE source as a
+foreign-language package. The `json-projection` check builds the example and
+uses its exported JSON through ordinary Helm.
+
 ## Credits
 
 The purifier idea was inspired by nixcloud's
