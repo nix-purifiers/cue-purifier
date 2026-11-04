@@ -56,6 +56,14 @@
           };
         in
         {
+          json-projection =
+            import ((import (purifier + "/nix/lib") { lib = nixpkgs.lib; }).testFixtures.jsonConsumer)
+              {
+                pkgs = p;
+                producer = b.packages.project;
+                expectedKey = "answer";
+                expectedValue = 42;
+              };
           inherit (b.packages) environment project;
           release = b.release;
           cli = self.packages.${system}.default;
