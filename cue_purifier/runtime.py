@@ -20,7 +20,7 @@ def prepare(root, companion):
     expression = (
         "import "
         + json.dumps(
-            os.environ["CUE_PURIFIER_SDK"] + "/lib/cue-purifier/nix/realize.nix"
+            os.environ["CUE_PURIFIER_SDK"] + "/lib/cue-purifier/pkgs/build-cue-project/realize.nix"
         )
         + " {root="
         + json.dumps(str(root))

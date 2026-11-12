@@ -22,7 +22,9 @@
   version ? "v0.1.0",
 }:
 let
-  lock = purifier.checkLock (import ./read-lock.nix { inherit lib; } { inherit src lockFile; });
+  lock = purifier.checkLock (
+    import ../../lib-overlays/default/read-lock.nix { inherit lib; } { inherit src lockFile; }
+  );
   prepared = import ./environment.nix scope { inherit lock src fetchers; };
   source = lib.cleanSourceWith {
     inherit src;
@@ -45,7 +47,7 @@ let
         chmod -R u+w source
         cd source
         export CUE_REGISTRY=none CUE_CACHE_DIR="$TMPDIR/cache"
-        ${python3}/bin/python3 ${../cue_purifier/layout.py} "$CUE_CACHE_DIR" ${prepared.packageFile}
+        ${python3}/bin/python3 ${../../cue_purifier/layout.py} "$CUE_CACHE_DIR" ${prepared.packageFile}
         test -e ${prepared.output}/manifest.json
         mkdir -p "$out"
         cue vet -c
@@ -74,7 +76,7 @@ let
             chmod -R u+w source
             cd source
             export CUE_CACHE_DIR="$TMPDIR/cache"
-            ${python3}/bin/python3 ${../cue_purifier/layout.py} "$CUE_CACHE_DIR" ${prepared.packageFile}
+            ${python3}/bin/python3 ${../../cue_purifier/layout.py} "$CUE_CACHE_DIR" ${prepared.packageFile}
             test -e ${prepared.output}/manifest.json
         export CUE_REGISTRY=${
           lib.escapeShellArg (

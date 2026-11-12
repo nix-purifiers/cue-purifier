@@ -18,7 +18,7 @@
       ];
       forAll = nixpkgs.lib.genAttrs systems;
       overlay = final: prev: {
-        cue-purifier = import ./nix/scope.nix {
+        cue-purifier = import ./pkgs/default.nix {
           pkgs = final;
           nixpkgsSrc = nixpkgs;
           purifierSrc = purifier;
@@ -44,7 +44,7 @@
           meta.description = "Lock native CUE modules";
         };
       });
-      lib.cue-purifier.readLock = import ./nix/read-lock.nix { lib = nixpkgs.lib; };
+      lib.cue-purifier = (nixpkgs.lib.extend (import ./lib-overlays/default)).cue-purifier;
       checks = forAll (
         system:
         let

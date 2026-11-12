@@ -16,15 +16,15 @@
 stdenvNoCC.mkDerivation {
   pname = "cue-purifier";
   version = "0.1.0";
-  src = ../.;
+  src = ../..;
   nativeBuildInputs = [ makeWrapper ];
   dontBuild = true;
   installPhase = ''
     mkdir -p "$out/bin" "$out/lib/cue-purifier"
-    cp -r cue_purifier nix native "$out/lib/cue-purifier/"
+    cp -r cue_purifier pkgs lib-overlays native "$out/lib/cue-purifier/"
     install -m755 bin/cue-purifier "$out/bin/cue-purifier"
     for file in realize release; do
-      substituteInPlace "$out/lib/cue-purifier/nix/$file.nix" --replace-fail '@nixpkgs@' '${nixpkgsSrc}' --replace-fail '@purifier@' '${purifierSrc}'
+      substituteInPlace "$out/lib/cue-purifier/pkgs/build-cue-project/$file.nix" --replace-fail '@nixpkgs@' '${nixpkgsSrc}' --replace-fail '@purifier@' '${purifierSrc}'
     done
     wrapProgram "$out/bin/cue-purifier" \
       --prefix PATH : ${
