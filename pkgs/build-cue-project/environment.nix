@@ -51,7 +51,7 @@ let
   packageFile = writeText "cue-packages.json" (builtins.toJSON packages);
   validated = runCommand "cue-native-selection-validated" { } ''
     export CUE_REGISTRY=none CUE_CACHE_DIR="$TMPDIR/cache"
-    ${python3}/bin/python3 ${../cue_purifier/layout.py} "$CUE_CACHE_DIR" ${packageFile}
+    ${python3}/bin/python3 ${../../cue_purifier/layout.py} "$CUE_CACHE_DIR" ${packageFile}
     ${helper}/bin/cue-purifier-native check ${selectionSource} ${writeText "cue-lock.json" (builtins.toJSON checked.data)}
     touch "$out"
   '';

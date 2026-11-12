@@ -6,12 +6,12 @@
 let
   nixpkgsSrc = /. + "@nixpkgs@";
   pkgs = import nixpkgsSrc { };
-  scope = import ./scope.nix {
+  scope = import ../default.nix {
     inherit pkgs nixpkgsSrc;
     purifierSrc = /. + "@purifier@";
   };
   src = /. + root;
-  lock = import ./read-lock.nix { inherit (pkgs) lib; } {
+  lock = import ../../lib-overlays/default/read-lock.nix { inherit (pkgs) lib; } {
     inherit src;
     lockFile = /. + lockFile;
   };

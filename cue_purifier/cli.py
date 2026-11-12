@@ -90,7 +90,7 @@ def main_impl():
         expression = (
             "import "
             + json.dumps(
-                os.environ["CUE_PURIFIER_SDK"] + "/lib/cue-purifier/nix/release.nix"
+                os.environ["CUE_PURIFIER_SDK"] + "/lib/cue-purifier/pkgs/build-cue-project/release.nix"
             )
             + " {root="
             + json.dumps(str(root))
